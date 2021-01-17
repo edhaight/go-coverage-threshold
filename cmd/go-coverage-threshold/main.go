@@ -10,7 +10,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/ceocoder/go-coverage-threshold/pkg/cover"
+	"github.com/edhaight/go-coverage-threshold/pkg/cover"
 )
 
 const (
@@ -21,7 +21,26 @@ const (
 var (
 	threshold float64
 	profile   bool
+	packages  Packages
 )
+
+// Packages is a custom type for passing packages on the command
+// line to test.
+type Packages []string
+
+// String implements the flag.Value interface's String method.
+func (p *Packages) String() string {
+	return strings.Join(*p, " ")
+}
+
+// Set implements the flag.Value interface's Set method.
+func (p *Packages) Set(s string) error {
+	if s == "" {
+		return nil
+	}
+	*p = strings.Split(s, " ")
+	return nil
+}
 
 func config(s string) *cover.Config {
 	if len(os.Args) >= 2 && threshold != thresholdDefault {
@@ -46,6 +65,7 @@ func flags() {
 	flag.Float64Var(&threshold, "threshold", thresholdDefault, thresholdUsage)
 	flag.Float64Var(&threshold, "t", thresholdDefault, thresholdUsage+" (shorthand)")
 	flag.BoolVar(&profile, "profile", false, "to generate profile file cover.out in current directory")
+	flag.Var(&packages, "packages", "space seperated list of packages to test")
 	flag.Parse()
 }
 
@@ -84,7 +104,7 @@ func goPath() (string, string, error) {
 func main() {
 	flags()
 
-	output, err := cover.Run(profile)
+	output, err := cover.Run(profile, packages...)
 	if err != nil {
 		log.Fatalf("cover failed %v - %v", err, string(output))
 	}

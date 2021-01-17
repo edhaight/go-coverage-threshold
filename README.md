@@ -5,7 +5,7 @@ keep your per-path Go test coverage above a threshold
 ## Installation
 
 ```sh
-go get -u github.com/ceocoder/go-coverage-threshold/cmd/go-coverage-threshold
+go get -u github.com/edhaight/go-coverage-threshold/cmd/go-coverage-threshold
 ```
 
 ## Usage

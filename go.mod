@@ -1,4 +1,4 @@
-module github.com/ceocoder/go-coverage-threshold
+module github.com/edhaight/go-coverage-threshold
 
 go 1.13
 

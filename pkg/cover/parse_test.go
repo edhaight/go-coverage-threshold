@@ -7,7 +7,7 @@ import (
 	"path"
 	"testing"
 
-	"github.com/ceocoder/go-coverage-threshold/pkg/cover"
+	"github.com/edhaight/go-coverage-threshold/pkg/cover"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -46,14 +46,14 @@ func TestParse(t *testing.T) {
 				{
 					Coverage:  0.0,
 					Duration:  "0.001s",
-					Path:      "github.com/ceocoder/go-coverage-threshold/cmd/go-coverage-threshold",
+					Path:      "github.com/edhaight/go-coverage-threshold/cmd/go-coverage-threshold",
 					Status:    "ok",
 					Threshold: 0.0,
 				},
 				{
 					Coverage:  0.0,
 					Duration:  "",
-					Path:      "github.com/ceocoder/go-coverage-threshold/pkg/cover",
+					Path:      "github.com/edhaight/go-coverage-threshold/pkg/cover",
 					Status:    "?",
 					Threshold: 0.0,
 				},

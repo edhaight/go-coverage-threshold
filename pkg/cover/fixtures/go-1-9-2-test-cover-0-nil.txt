@@ -1,2 +1,2 @@
-ok  	github.com/ceocoder/go-coverage-threshold/cmd/go-coverage-threshold	0.001s	coverage: 0.0% of statements
-?   	github.com/ceocoder/go-coverage-threshold/pkg/cover	[no test files]
+ok  	github.com/edhaight/go-coverage-threshold/cmd/go-coverage-threshold	0.001s	coverage: 0.0% of statements
+?   	github.com/edhaight/go-coverage-threshold/pkg/cover	[no test files]

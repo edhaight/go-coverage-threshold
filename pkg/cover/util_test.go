@@ -41,7 +41,7 @@ func TestFindUp(t *testing.T) {
 		},
 		{
 			cwd:     wd,
-			s:       "really_really_should_not_exist_" + string(rand.Int()),
+			s:       "really_really_should_not_exist_" + fmt.Sprint(rand.Int()),
 			want:    "",
 			wantErr: errors.New("file not found"),
 		},
