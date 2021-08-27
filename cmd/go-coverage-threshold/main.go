@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -21,6 +22,7 @@ const (
 var (
 	threshold float64
 	profile   bool
+	testfile  string
 	packages  Packages
 )
 
@@ -65,6 +67,7 @@ func flags() {
 	flag.Float64Var(&threshold, "threshold", thresholdDefault, thresholdUsage)
 	flag.Float64Var(&threshold, "t", thresholdDefault, thresholdUsage+" (shorthand)")
 	flag.BoolVar(&profile, "profile", false, "to generate profile file cover.out in current directory")
+	flag.StringVar(&testfile, "testfile", "", "test result output file from running go test with -cover")
 	flag.Var(&packages, "packages", "space seperated list of packages to test")
 	flag.Parse()
 }
@@ -101,17 +104,28 @@ func goPath() (string, string, error) {
 	return path.Join(home, "go"), "", nil
 }
 
+func getTestOutput() ([]byte, error) {
+	var output []byte
+	var err error
+	if testfile != "" {
+		output, err = ioutil.ReadFile(testfile)
+	} else {
+		output, err = cover.Run(profile, packages...)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to get test output: %v - %v", err, string(output))
+	}
+	return output, nil
+}
 func main() {
 	flags()
-
-	output, err := cover.Run(profile, packages...)
+	output, err := getTestOutput()
 	if err != nil {
-		log.Fatalf("cover failed %v - %v", err, string(output))
+		log.Fatalf("cover failed: %v", err)
 	}
-
 	gp, module, err := goPath()
 	if err != nil {
-		log.Fatalf("gopath failed %v", err)
+		log.Fatalf("gopath failed: %v", err)
 	}
 
 	exitCode := 0
